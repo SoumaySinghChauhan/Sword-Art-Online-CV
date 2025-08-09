@@ -1,77 +1,91 @@
 <!DOCTYPE html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Soumay's Aincrad</title>
-    <link rel="stylesheet" href="css/style.css">
-
-   
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SAO CV</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Exo+2:wght@400;700&display=swap');
+        body {
+            font-family: 'Exo 2', sans-serif;
+        }
+        @keyframes link-start-anim {
+            0% { opacity: 0; transform: scale(0.8); }
+            30% { opacity: 1; }
+            80% { opacity: 1; transform: scale(1); }
+            100% { opacity: 0; transform: scale(1.5); }
+        }
+        #link-start {
+            animation: link-start-anim 2.5s forwards;
+        }
+        .panel {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+        .panel.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
 </head>
-<body >
-    <iframe width="483" height="272" src="https://www.youtube.com/embed/YS1d8Mz2SdE" title="「Sword Art Online - FullDive」Opening Trailer ー English Subs" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
-    
-        
-    </video>
-    </h3>
-    <h3><a href="https://www.youtube.com/watch?v=6ohYYtxfDCg">youtube</a></h3>
-    <table>
-        <tr>
-            <td><img src="https://upload.wikimedia.org/wikipedia/en/thumb/9/90/Kirito_Sword_Art_Online.png/180px-Kirito_Sword_Art_Online.png" alt=""></td>
-            <td><h1>Soumay Singh Chauhan</h1>
-                <p><em>Founder and CEO Of <strong>Aincrad</strong>.</em></p>  
-                <p>I am an aspiring Full Dive VR Tech creator</p></td>
-        </tr>
-    </table>
-    <hr>
-<h3><a href="https://en.wikipedia.org/wiki/Sword_Art_Online">Sword_Art_Online</a> </h3>
-<ul>
-    <li>Kirito</li>
-</ul>
-<table border="1" cellspacing="20">
-    <thead>
-        <tr>
-            <th>Equipment</th>
-            <th>Notes</th>
-        </tr>
-     </thead>
-     <tbody>
-     <tr>
-        <td>Elucidator</td>
-        <td>Kirito's primary weapon in Sword Art Online</td>
-     </tr>
-     <tr>
-        <td>Holy Sword Excalibur</td>
-        <td>The strongest sword known in the ALO Universe. Secondary sword, which is only used during emergencies</td>
-     </tr>
-     <tr>
-        <td>Night Sky Sword</td>
-        <td>Crafted by Sadore from the topmost branch of the Gigas Cedar</td>
-     </tr>
-    </tbody>  
-</table>
-<hr>
-<h3>Skills</h3>
-<table border="2" cellspacing="20">
-    <tr>
-        <td>One Handed Sword</td>
-        <td>⭐️⭐️⭐️⭐️⭐️</td>
-        
-    </tr>
-    <tr>
-        <td>Martial Arts</td>
-        <td>⭐️⭐️⭐️⭐️⭐️</td>
-    </tr>
-    <tr>
-        <td>Blade Throwing</td>
-        <td>⭐️⭐️⭐️⭐️⭐️</td>
-    </tr>
-    <tr>
-        <td>Hypersense</td>
-        <td>⭐️⭐️⭐️⭐️☆</td>
-    </tr>
-</table>
-<hr>
-<h3><a href="https://overgeared.fandom.com/wiki/Satisfy">Satisfy</a></h3>
-<br>
-<a href="contact-me.html">Contact_Me</a>
+<body class="bg-gray-900 text-gray-200 overflow-hidden">
+    <canvas id="background-canvas" class="fixed top-0 left-0 w-full h-full z-0"></canvas>
+    <div id="loading-screen" class="fixed top-0 left-0 w-full h-full bg-black flex justify-center items-center z-10">
+        <div id="link-start" class="text-4xl text-white border-4 border-white px-10 py-5 tracking-widest opacity-0">LINK START</div>
+    </div>
+
+    <div id="cv-container" class="hidden max-w-4xl mx-auto p-4 sm:p-8 md:p-12 transition-opacity duration-500">
+        <header class="flex justify-between items-center mb-8 bg-gray-800 bg-opacity-50 border border-gray-700 rounded-lg p-4">
+            <div>
+                <h1 id="profile-name" class="text-4xl font-bold text-white"></h1>
+                <p id="profile-title" class="text-lg text-gray-400"></p>
+            </div>
+            <div class="w-64 h-6 bg-gray-700 border-2 border-gray-500 rounded-full p-1">
+                <div class="w-full h-full bg-green-500 rounded-full shadow-[0_0_5px_#22c55e,0_0_10px_#22c55e]"></div>
+            </div>
+        </header>
+
+        <main>
+            <section id="profile" class="panel bg-gray-800 bg-opacity-50 border border-gray-700 rounded-lg p-6 mb-6">
+                <h2 class="text-2xl font-bold text-cyan-400 border-b-2 border-cyan-400 pb-2 mb-4">Profile</h2>
+                <p id="profile-description" class="text-gray-300"></p>
+            </section>
+
+            <section id="skills" class="panel bg-gray-800 bg-opacity-50 border border-gray-700 rounded-lg p-6 mb-6">
+                <h2 class="text-2xl font-bold text-cyan-400 border-b-2 border-cyan-400 pb-2 mb-4">Skills</h2>
+                <div class="flex flex-col md:flex-row gap-6">
+                    <ul id="skills-list" class="list-none p-0 md:w-1/2">
+                        <!-- Skills will be dynamically injected here -->
+                    </ul>
+                    <div id="skill-description-panel" class="md:w-1/2 bg-gray-900 bg-opacity-50 p-4 rounded-lg border border-gray-700">
+                        <h3 id="skill-name-display" class="text-xl font-bold text-white mb-2"></h3>
+                        <p id="skill-level-display" class="text-cyan-400 font-bold mb-2"></p>
+                        <p id="skill-description-display" class="text-gray-300">Hover over a skill to see details.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="experience" class="panel bg-gray-800 bg-opacity-50 border border-gray-700 rounded-lg p-6 mb-6">
+                <h2 class="text-2xl font-bold text-cyan-400 border-b-2 border-cyan-400 pb-2 mb-4">Experience</h2>
+                <div id="experience-list">
+                    <!-- Experience will be dynamically injected here -->
+                </div>
+            </section>
+
+            <section id="education" class="panel bg-gray-800 bg-opacity-50 border border-gray-700 rounded-lg p-6 mb-6">
+                <h2 class="text-2xl font-bold text-cyan-400 border-b-2 border-cyan-400 pb-2 mb-4">Education</h2>
+                <p id="education-title" class="text-gray-300"></p>
+            </section>
+        </main>
+
+        <footer class="text-center mt-8">
+            <a href="#" class="inline-block px-6 py-3 bg-transparent text-cyan-400 border-2 border-cyan-400 rounded-lg font-bold transition-all duration-300 hover:bg-cyan-400 hover:text-black hover:shadow-[0_0_15px_#22d3ee] transform hover:scale-105">Contact Me</a>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+    <script src="background.js"></script>
 </body>
-</html> 
+</html>
